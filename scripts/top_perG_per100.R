@@ -50,9 +50,9 @@ vline <- function(x = 0, color = "gray") {
 
 ### Lendo Dados
 # dados por jogo
-perG <- data.frame(read.csv("data/players_perG.csv", encoding = "UTF-8"))
+perG <- data.frame(read.csv("data/importado/players_perG.csv", encoding = "UTF-8"))
 # dados por 100 posses de bola
-per100 <- data.frame(read.csv("data/players_per100.csv", encoding = "UTF-8"))
+per100 <- data.frame(read.csv("data/importado/players_per100.csv", encoding = "UTF-8"))
 
 ### Limpando Dados
 per100 <- per100 %>% 
@@ -86,6 +86,7 @@ perG <- select(perG, -c(Rk, Player.additional)) %>%
 # juntando os dataframes
 joined_stats <- merge(x = perG, y = per100, by = "Player", 
                       all = FALSE, suffixes = c("_G", "_100"))
+write.csv(joined_stats, "data/transformado/players_joined.csv")
 # Gráfico de dispersão
 traducao <- c("Pontos", "Rebotes", "Assistências", "Roubos de bola", "Tocos",
               "Bolas de 3")
