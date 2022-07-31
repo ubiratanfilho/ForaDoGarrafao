@@ -50,9 +50,15 @@ vline <- function(x = 0, color = "gray") {
 
 ### Lendo Dados
 # dados por jogo
-perG <- data.frame(read.csv("data/importado/players_perG.csv", encoding = "UTF-8"))
+perG <- data.frame(read.csv("data/importado/players_perG.csv", 
+                            encoding = "UTF-8",
+                            blank.lines.skip = TRUE))
+perG <- head(perG, -1) # pulando última linha
 # dados por 100 posses de bola
-per100 <- data.frame(read.csv("data/importado/players_per100.csv", encoding = "UTF-8"))
+per100 <- data.frame(read.csv("data/importado/players_per100.csv", 
+                              encoding = "UTF-8",
+                              blank.lines.skip = TRUE))
+per100 <- head(per100, -1)
 
 ### Limpando Dados
 per100 <- per100 %>% 
