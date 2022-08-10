@@ -2,8 +2,8 @@
 import plotly.graph_objects as go
 
 ### Funções
-def custom_template(type='bar'):
-    if type == 'bar':
+def custom_template(type_='bar'):
+    if type_ == 'bar':
         custom_template = {
             "layout": go.Layout(
                 font={
