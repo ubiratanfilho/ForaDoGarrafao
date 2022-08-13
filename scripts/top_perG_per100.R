@@ -50,6 +50,7 @@ vline <- function(x = 0, color = "gray") {
 
 ### Lendo Dados
 # dados por jogo
+
 perG <- data.frame(read.csv("data/importado/players_perG.csv", 
                             encoding = "UTF-8",
                             blank.lines.skip = TRUE))
@@ -62,7 +63,7 @@ per100 <- head(per100, -1)
 
 ### Limpando Dados
 per100 <- per100 %>% 
-        select(-c(Rk, X, Player.additional)) %>%
+        select(-c(X)) %>%
         filter(MP > 100) %>%
         group_by(Player) %>%
         summarise(
@@ -76,7 +77,7 @@ per100 <- per100 %>%
           # uma ocorrência deles no dataset. Então, agrupei por jogador e calculei
           # as médias das estatísticas que iremos analisar
                 
-perG <- select(perG, -c(Rk, Player.additional)) %>%
+perG <- perG %>%
         filter(G > 10) %>%
         group_by(Player) %>%
         summarise(
