@@ -1,4 +1,4 @@
-from nba_api.stats.static import players
+
 import pandas as pd
 
 class Datasets():
@@ -37,4 +37,24 @@ class Datasets():
             df.to_csv(output_path, index=False)
         return df
     
-Datasets.from_basketball_reference('https://www.basketball-reference.com/leagues/NBA_2022_per_poss.html', 'data/importado/players_per100.csv')
+    def get_json_from_name(name: str, is_player=True) -> int:
+        """ Get the json of a player or team from his name
+        """
+        from nba_api.stats.static import players, teams
+        if is_player:
+            nba_players = players.get_players()
+            return [player for player in nba_players 
+                    if player['full_name'] == name][0]
+        else:
+            nba_teams = teams.get_teams()
+            return [team for team in nba_teams 
+                    if team['full_name'] == name][0]
+    
+    def get_player_career(player_id: int) -> list:
+        """ Get the career of a player from his id
+        """
+        from nba_api.stats.endpoints import playercareerstats
+        career = playercareerstats.PlayerCareerStats(player_id=player_id)
+        return career.get_data_frames()[0]
+
+# Datasets.from_basketball_reference('https://www.basketball-reference.com/leagues/NBA_2022_per_poss.html', 'data/importado/players_per100.csv')
