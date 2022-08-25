@@ -8,4 +8,4 @@ Nesse repositório se encontra todo o código e dados utilizados para desenvolve
 - [Twitter](https://twitter.com/foradogarrafao)
 - [Medium](https://medium.com/fora-do-garraf%C3%A3o)
 
-<img src="imagens/cover.png">
+<img src="imagens/cover.jpeg">
