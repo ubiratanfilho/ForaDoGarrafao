@@ -134,7 +134,7 @@ for (i in seq_along(cols)){
                         hide_colorbar()
         print(fig)
         # salvando a figura em formato .png
-        path = paste("plots/", cols[i], ".png", sep="")
+        path = paste("plots/porJogo_por100", cols[i], ".png", sep="")
         orca(fig, path)
         
 }
