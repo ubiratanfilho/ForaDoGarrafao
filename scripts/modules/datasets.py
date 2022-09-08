@@ -56,5 +56,22 @@ class Datasets():
         from nba_api.stats.endpoints import playercareerstats
         career = playercareerstats.PlayerCareerStats(player_id=player_id)
         return career.get_data_frames()[0]
+    
+    def get_shot_data(id, team_ids, seasons) -> list:
+        """ Get the shot data of a player from his id and seasons
+        """
+        from nba_api.stats.endpoints import shotchartdetail
+        df = pd.DataFrame()
+        for season in seasons:
+            for team in team_ids:
+                shot_data = shotchartdetail.ShotChartDetail(
+                    team_id=team,
+                    player_id=id,
+                    context_measure_simple='FGA',
+                    season_nullable=season
+                )
+                df = pd.concat([df, shot_data.get_data_frames()[0]])
+        
+        return df
 
 # Datasets.from_basketball_reference('https://www.basketball-reference.com/leagues/NBA_2022_per_poss.html', 'data/importado/players_per100.csv')
