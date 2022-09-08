@@ -36,6 +36,8 @@ class ShotCharts:
     
     def frequency_chart(df, name, season=None, extent=(-250, 250, 422.5, -47.5),
                         gridsize=25, cmap="inferno"):
+        """ Create a shot chart of a player's shot frequency and accuracy
+        """ 
         # create frequency of shots per hexbin zone
         shots_hex = plt.hexbin(
             df.LOC_X, df.LOC_Y + 60,
@@ -61,7 +63,6 @@ class ShotCharts:
         x = [i[0] for i in shots_hex.get_offsets()]
         y = [i[1] for i in shots_hex.get_offsets()]
         z = pcts_by_hex
-        z2 = freq_by_hex 
         sizes = freq_by_hex * 1000
         
         # Create figure and axes
@@ -69,13 +70,10 @@ class ShotCharts:
         ax = fig.add_axes([0, 0, 1, 1], facecolor='black')
         plt.xlim(250, -250)
         plt.ylim(-47.5, 422.5)
-
         # Plot hexbins
         scatter = ax.scatter(x, y, c=z, cmap=cmap, marker='h', s=sizes)
-
         # Draw court
         ax = ShotCharts.create_court(ax)
-
         # Add legends
         max_freq = max(freq_by_hex)
         max_size = max(sizes)
@@ -90,7 +88,6 @@ class ShotCharts:
             ),
             loc=[0.68,0.785], title='Freq %', fontsize=6)
         plt.gca().add_artist(legend_acc)
-
         # Add title
         plt.text(-250, 450, f"{name}", fontsize=21, color='white',
                 fontname='Franklin Gothic Medium')
@@ -101,58 +98,42 @@ class ShotCharts:
 
         return fig
     
-    def volume_chart(df, name, season=None, extent=(-250, 250, 422.5, -47.5),
-                        gridsize=25, cmap="plasma"):
+    def volume_chart(df, name, season=None, 
+                     RA=True,
+                     extent=(-250, 250, 422.5, -47.5),
+                     gridsize=25, cmap="plasma"):
         fig = plt.figure(figsize=(3.6, 3.6), facecolor='black', edgecolor='black', dpi=100)
         ax = fig.add_axes([0, 0, 1, 1], facecolor='black')
 
         # Plot hexbin of shots
-        hexbin = ax.hexbin(df.LOC_X, df.LOC_Y + 60, cmap=cmap,
+        if RA == True:
+                x = df.LOC_X
+                y = df.LOC_Y + 60
+                # Annotate player name and season
+                plt.text(-250, 440, f"{name}", fontsize=21, color='white',
+                        fontname='Franklin Gothic Medium')
+                plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
+                        fontname='Franklin Gothic Book')
+                plt.text(-250, -20, season, fontsize=8, color='white')
+                plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
+        else:
+                cond = ~((-45 < df.LOC_X) & (df.LOC_X < 45) & (-40 < df.LOC_Y) & (df.LOC_Y < 45))
+                x = df.LOC_X[cond]
+                y = df.LOC_Y[cond] + 60
+                # Annotate player name and season
+                plt.text(-250, 440, f"{name}", fontsize=21, color='white',
+                        fontname='Franklin Gothic Medium')
+                plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
+                        fontname='Franklin Gothic Book')
+                plt.text(-250, 385, "(sem área restrita)", fontsize=10, color='red')
+                plt.text(-250, -20, season, fontsize=8, color='white')
+                plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
+                
+        hexbin = ax.hexbin(x, y, cmap=cmap,
                 bins="log", gridsize=25, mincnt=2, extent=(-250, 250, 422.5, -47.5))
 
         # Draw court
         ax = ShotCharts.create_court(ax, 'white')
-
-        # Annotate player name and season
-        plt.text(-250, 440, f"{name}", fontsize=21, color='white',
-                fontname='Franklin Gothic Medium')
-        plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
-                fontname='Franklin Gothic Book')
-        plt.text(-250, -20, season, fontsize=8, color='white')
-        plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
-
-        # add colorbar
-        im = plt.imread("../imagens/Colorbar Shotcharts.png")
-        newax = fig.add_axes([0.56, 0.6, 0.45, 0.4], anchor='NE', zorder=1)
-        newax.xaxis.set_visible(False)
-        newax.yaxis.set_visible(False)
-        newax.imshow(im)
-
-        return fig
-    
-    def volume_chart_non_RA(df, name, season=None, extent=(-250, 250, 422.5, -47.5),
-                        gridsize=25, cmap="plasma"):
-        fig = plt.figure(figsize=(3.6, 3.6), facecolor='black', edgecolor='black', dpi=100)
-        ax = fig.add_axes([0, 0, 1, 1], facecolor='black')
-
-        # Plot hexbin of shots
-        cond = ~((-45 < df.LOC_X) & (df.LOC_X < 45) & (-40 < df.LOC_Y) & (df.LOC_Y < 45))
-        x = df.LOC_X[cond]
-        y = df.LOC_Y[cond] + 60
-        hexbin = ax.hexbin(x, y, cmap='plasma',
-                bins="log", gridsize=25, mincnt=2, extent=(-250, 250, 422.5, -47.5))
-
-        # Draw court
-        ax = ShotCharts.create_court(ax, 'white')
-
-        # Annotate player name and season
-        plt.text(-250, 440, f"{name}", fontsize=21, color='white',
-                fontname='Franklin Gothic Medium')
-        plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
-                fontname='Franklin Gothic Book')
-        plt.text(-250, 385, "(sem área restrita)", fontsize=10, color='red')
-        plt.text(-250, -20, season, fontsize=8, color='white')
-        plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
 
         # add colorbar
         im = plt.imread("../imagens/Colorbar Shotcharts.png")
