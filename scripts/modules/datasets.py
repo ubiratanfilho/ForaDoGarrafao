@@ -73,5 +73,22 @@ class Datasets():
                 df = pd.concat([df, shot_data.get_data_frames()[0]])
         
         return df
+    
+    def get_all_ids(only_active=True) -> list:
+        """ Get all the ids of the players
+        """
+        from nba_api.stats.static import players
+        nba_players = players.get_players()
+        if only_active:
+            return [player['id'] for player in nba_players 
+                    if player['is_active']]
+        return [player['id'] for player in nba_players]
+    
+    def get_nba_headshots() -> pd.DataFrame:
+        """ Get the headshots of all the players
+        """
+        from nba_api.stats.static import players
+        ids = Datasets.get_all_ids()
+
 
 # Datasets.from_basketball_reference('https://www.basketball-reference.com/leagues/NBA_2022_per_poss.html', 'data/importado/players_per100.csv')
