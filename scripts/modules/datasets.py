@@ -101,16 +101,10 @@ class Datasets():
     def get_all_nba_headshots(only_active=False) -> None:
         """ Get the headshots of all the players
         """
-        from nba_api.stats.static import players
-        import requests
-        import shutil
         ids = Datasets.get_all_ids(only_active=only_active)
         for id in ids:
             Datasets.get_player_headshot(id)
                     
-        
-                            
-        
 
 if __name__ == '__main__':
     # Datasets.from_basketball_reference('https://www.basketball-reference.com/leagues/NBA_2022_per_poss.html', 'data/importado/players_per100.csv')
