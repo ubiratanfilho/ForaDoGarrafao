@@ -84,7 +84,7 @@ class Datasets():
                     if player['is_active']]
         return [player['id'] for player in nba_players]
     
-    def get_player_headshot(id) -> None:
+    def get_player_headshot(id) -> str:
             """ Get the headshot of a player from his id
             """
             from nba_api.stats.static import players
@@ -97,7 +97,7 @@ class Datasets():
                 with open(output_path, 'wb') as f:
                     r.raw.decode_content = True
                     shutil.copyfileobj(r.raw, f)
-                    
+                                        
     def get_all_nba_headshots(only_active=False) -> None:
         """ Get the headshots of all the players
         """
@@ -109,4 +109,6 @@ class Datasets():
 if __name__ == '__main__':
     # Datasets.from_basketball_reference('https://www.basketball-reference.com/leagues/NBA_2022_per_poss.html', 'data/importado/players_per100.csv')
     
-    Datasets.get_all_nba_headshots(True)
+    #Datasets.get_all_nba_headshots(True)
+    
+    Datasets.get_player_headshot(20738)
