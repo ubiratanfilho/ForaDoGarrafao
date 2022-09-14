@@ -111,4 +111,4 @@ if __name__ == '__main__':
     
     #Datasets.get_all_nba_headshots(True)
     
-    Datasets.get_player_headshot(20738)
+    Datasets.get_player_headshot(202738)

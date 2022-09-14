@@ -35,6 +35,14 @@ class ShotCharts:
                 ax.set_ylim(0, 470)
                 return ax
         
+        def add_headshot(fig, id):
+                headshot_path = "../data/importado/headshots/"+ str(id) +".png"
+                im = plt.imread(headshot_path)
+                ax = fig.add_axes([0.06, 0.01, 0.3, 0.3], anchor='SW')
+                ax.imshow(im)
+                ax.axis('off')
+                return fig
+        
         def frequency_chart(df, name, season=None, extent=(-250, 250, 422.5, -47.5),
                                 gridsize=25, cmap="inferno"):
                 """ Create a shot chart of a player's shot frequency and accuracy
@@ -98,6 +106,9 @@ class ShotCharts:
                         season = f"{season[0][:4]}-{season[-1][-2:]}"
                 plt.text(-250, -20, season, fontsize=8, color='white')
                 plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
+                
+                # add headshot
+                fig = ShotCharts.add_headshot(fig, df.PLAYER_ID.iloc[0])
 
                 return fig
         
@@ -148,6 +159,9 @@ class ShotCharts:
                 newax.xaxis.set_visible(False)
                 newax.yaxis.set_visible(False)
                 newax.imshow(im)
+                
+                # add headshot
+                fig = ShotCharts.add_headshot(fig, df.PLAYER_ID.iloc[0])
 
                 return fig
         
@@ -171,6 +185,9 @@ class ShotCharts:
 
                 ax = ShotCharts.create_court(ax, 'white')
                 sc = ax.scatter(df.LOC_X, df.LOC_Y + 60, c=df.SHOT_MADE_FLAG, cmap='RdYlGn', s=12)
+                
+                # add headshot
+                fig = ShotCharts.add_headshot(fig, df.PLAYER_ID.iloc[0])
 
                 return fig
 
