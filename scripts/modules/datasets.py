@@ -1,4 +1,3 @@
-# import urrlib 
 import pandas as pd
 
 class Datasets():
@@ -90,8 +89,9 @@ class Datasets():
             from nba_api.stats.static import players
             import requests
             import shutil
+            
             url = f'https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{id}.png'
-            output_path = f'../../data/importado/headshots/{id}.png'
+            output_path = f'C:/Users/ubfil/OneDrive/ForaDoGarrafao/data/importado/headshots/{id}.png'
             r = requests.get(url, stream=True)
             if r.status_code == 200:
                 with open(output_path, 'wb') as f:
