@@ -161,7 +161,7 @@ class ShotCharts:
                 newax.imshow(im)
                 
                 # add headshot
-                fig = ShotCharts.add_headshot(fig, df.PLAYER_ID.iloc[0])
+                #fig = ShotCharts.add_headshot(fig, df.PLAYER_ID.iloc[0])
 
                 return fig
         
