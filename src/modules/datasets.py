@@ -6,6 +6,7 @@ class Datasets():
     def __init__(self) -> None:
         pass
     
+    @staticmethod
     def from_basketball_reference(url: str, output_path=None) -> pd.DataFrame:
         """ Create a dataset from basketball-reference.com.
         """
@@ -36,6 +37,7 @@ class Datasets():
             df.to_csv(output_path, index=False)
         return df
     
+    @staticmethod
     def get_json_from_name(name: str, is_player=True) -> int:
         """ Get the json of a player or team from his name
         """
@@ -56,6 +58,7 @@ class Datasets():
         career = playercareerstats.PlayerCareerStats(player_id=player_id)
         return career.get_data_frames()[0]
     
+    @staticmethod
     def get_shot_data(id, team_ids, seasons) -> list:
         """ Get the shot data of a player from his id and seasons
         """
@@ -73,6 +76,7 @@ class Datasets():
         
         return df
     
+    @staticmethod
     def get_all_ids(only_active=True) -> list:
         """ Get all the ids of the players
         """
@@ -83,6 +87,7 @@ class Datasets():
                     if player['is_active']]
         return [player['id'] for player in nba_players]
     
+    @staticmethod
     def get_player_headshot(id) -> str:
             """ Get the headshot of a player from his id
             """
@@ -97,18 +102,11 @@ class Datasets():
                 with open(output_path, 'wb') as f:
                     r.raw.decode_content = True
                     shutil.copyfileobj(r.raw, f)
-                                        
+    
+    @staticmethod                                    
     def get_all_nba_headshots(only_active=False) -> None:
         """ Get the headshots of all the players
         """
         ids = Datasets.get_all_ids(only_active=only_active)
         for id in ids:
             Datasets.get_player_headshot(id)
-                    
-
-if __name__ == '__main__':
-    # Datasets.from_basketball_reference('https://www.basketball-reference.com/leagues/NBA_2022_per_poss.html', 'data/importado/players_per100.csv')
-    
-    #Datasets.get_all_nba_headshots(True)
-    
-    Datasets.get_player_headshot(202738)
