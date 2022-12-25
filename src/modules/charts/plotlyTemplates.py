@@ -1,10 +1,9 @@
 ### Dependências
 import plotly.graph_objects as go
 
-class PlotlyTemplates():
-    def __init__(self) -> None:
-        pass
-    
+class PlotlyTemplates:
+    """Class to create custom templates for plotly charts
+    """
     def custom_template(type_='bar'):
         if type_ == 'bar':
             custom_template = {

@@ -1,42 +1,43 @@
 import pandas as pd
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
 
-class Datasets():
-    """ A class to represent and create datasets using different sources.
+class BReferenceScraper:
+    """ Class to scrape data from basketball-reference.com.
     """
-    def __init__(self) -> None:
-        pass
-    
     @staticmethod
-    def from_basketball_reference(url: str, output_path=None) -> pd.DataFrame:
-        """ Create a dataset from basketball-reference.com.
+    def players_table(url, output_path=None) -> pd.DataFrame:
+        """Scraper for player stats tables available in basketball-reference.com
+
+        Args:
+            url (string): url of the page to scrape
+            output_path (string, optional): path to save the csv. Defaults to None.
+        Returns:
+            pd.DataFrame: dataframe with the scraped data
         """
-        from urllib.request import urlopen
-        from bs4 import BeautifulSoup
+        html = urlopen(url)
+        bs = BeautifulSoup(html, 'lxml')
         
-        # URL to scrape
-        url = url
+        headers = [
+            th.get_text() 
+            for th in bs.find_all('tr', limit=2)[0].find_all('th')
+            [1:]
+        ]
 
-        # collect HTML data
-        html = urlopen(url)   
-        # create beautiful soup object from HTML
-        soup = BeautifulSoup(html, features="lxml")
+        rows = bs.find_all('tr')[1:]
+        rows_data = [
+            [td.get_text() for td in rows[i].find_all('td')]
+            for i in range(len(rows))
+        ]
 
-        # use getText()to extract the headers into a list
-        headers = [th.getText() 
-                   for th in soup.findAll('tr', limit=2)[0].findAll('th')
-                   ][1:]
-        # get rows from table
-        rows = soup.findAll('tr')[1:]
-        rows_data = [[td.getText() for td in rows[i].findAll('td')]
-                            for i in range(len(rows))]
-
-        # create dataframe
-        df = pd.DataFrame(rows_data, columns = headers)
-        # save dataframe to csv
+        df = pd.DataFrame(rows_data, columns=headers)
         if output_path != None:
             df.to_csv(output_path, index=False)
         return df
     
+class NbaScraper:
+    """ Class to scrape data from the NBA official website.
+    """
     @staticmethod
     def get_json_from_name(name: str, is_player=True) -> int:
         """ Get the json of a player or team from his name
@@ -59,7 +60,7 @@ class Datasets():
         return career.get_data_frames()[0]
     
     @staticmethod
-    def get_shot_data(id, team_ids, seasons) -> list:
+    def get_shot_data(id: int, team_ids: list[int], seasons: list[int]) -> list:
         """ Get the shot data of a player from his id and seasons
         """
         from nba_api.stats.endpoints import shotchartdetail
@@ -88,7 +89,7 @@ class Datasets():
         return [player['id'] for player in nba_players]
     
     @staticmethod
-    def get_player_headshot(id) -> str:
+    def get_player_headshot(id: int) -> str:
             """ Get the headshot of a player from his id
             """
             from nba_api.stats.static import players
@@ -107,6 +108,6 @@ class Datasets():
     def get_all_nba_headshots(only_active=False) -> None:
         """ Get the headshots of all the players
         """
-        ids = Datasets.get_all_ids(only_active=only_active)
+        ids = NbaScraper.get_all_ids(only_active=only_active)
         for id in ids:
-            Datasets.get_player_headshot(id)
+            NbaScraper.get_player_headshot(id)

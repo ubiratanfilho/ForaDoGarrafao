@@ -1,13 +1,13 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-from modules.datasets import Datasets
+import pandas as pd
 
 class ShotCharts:
         def __init__(self) -> None:
                 pass
         
-        def create_court(ax, color="white"):
+        def create_court(ax: mpl.axes, color="white") -> mpl.axes:
                 """ Create a basketball court in a matplotlib axes
                 """
                 # Short corner 3PT lines
@@ -35,7 +35,7 @@ class ShotCharts:
                 ax.set_ylim(0, 470)
                 return ax
         
-        def add_headshot(fig, id):
+        def add_headshot(fig: plt.figure, id: int) -> plt.figure:
                 headshot_path = "../data/importado/headshots/"+ str(id) +".png"
                 im = plt.imread(headshot_path)
                 ax = fig.add_axes([0.06, 0.01, 0.3, 0.3], anchor='SW')
@@ -43,7 +43,7 @@ class ShotCharts:
                 ax.axis('off')
                 return fig
         
-        def frequency_chart(df, name, season=None, extent=(-250, 250, 422.5, -47.5),
+        def frequency_chart(df: pd.DataFrame, name: str, season=None, extent=(-250, 250, 422.5, -47.5),
                                 gridsize=25, cmap="inferno"):
                 """ Create a shot chart of a player's shot frequency and accuracy
                 """ 
@@ -112,7 +112,7 @@ class ShotCharts:
 
                 return fig
         
-        def volume_chart(df, name, season=None, 
+        def volume_chart(df: pd.DataFrame, name: str, season=None, 
                         RA=True,
                         extent=(-250, 250, 422.5, -47.5),
                         gridsize=25, cmap="plasma"):
@@ -165,7 +165,7 @@ class ShotCharts:
 
                 return fig
         
-        def makes_misses_chart(df, name, season=None):
+        def makes_misses_chart(df: pd.DataFrame, name: str, season=None):
                 # Create figure and axes
                 fig = plt.figure(figsize=(3.6, 3.6), facecolor='black', edgecolor='black', dpi=100)
                 ax = fig.add_axes([0, 0, 1, 1], facecolor='black')
