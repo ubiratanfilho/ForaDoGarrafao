@@ -36,7 +36,7 @@ class ShotCharts:
                 return ax
         
         def add_headshot(fig: plt.figure, id: int) -> plt.figure:
-                headshot_path = "../data/importado/headshots/"+ str(id) +".png"
+                headshot_path = "../data/nba/transient/headshots/"+ str(id) +".png"
                 im = plt.imread(headshot_path)
                 ax = fig.add_axes([0.06, 0.01, 0.3, 0.3], anchor='SW')
                 ax.imshow(im)

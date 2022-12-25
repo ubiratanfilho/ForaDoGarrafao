@@ -6,7 +6,7 @@ class BReferenceScraper:
     """ Class to scrape data from basketball-reference.com.
     """
     @staticmethod
-    def players_table(url, output_path=None) -> pd.DataFrame:
+    def players_table(url: str, output_path=None) -> pd.DataFrame:
         """Scraper for player stats tables available in basketball-reference.com
 
         Args:
@@ -34,6 +34,28 @@ class BReferenceScraper:
         if output_path != None:
             df.to_csv(output_path, index=False)
         return df
+    
+    @staticmethod
+    def player_headshot(player_name: str, output_path=None):
+        """Scraper for player headshot available in basketball-reference.com
+
+        Args:
+            player_name (string): name of the player to scrape
+        """
+        from PIL import Image
+
+        names = player_name.replace('-', ' ').lower().split(' ')
+        url = 'https://www.basketball-reference.com/players/' + names[1][0] + '/' + names[1][0:5] + names[0][0:2] + '01.html'
+        bs = BeautifulSoup(urlopen(url), 'lxml')
+        
+        id_photo = 'Photo of ' + player_name
+        img_url = bs.find('img', {'alt': id_photo})['src']
+        img = Image.open(urlopen(img_url))
+        
+        if output_path != None:
+            img.save(output_path)
+        else:
+            img.save('../data/breference/transient/headshots/' + player_name.lower().replace(' ', '_') + '.jpg')
     
 class NbaScraper:
     """ Class to scrape data from the NBA official website.
@@ -97,7 +119,7 @@ class NbaScraper:
             import shutil
             
             url = f'https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{id}.png'
-            output_path = f'C:/Users/ubfil/OneDrive/ForaDoGarrafao/data/importado/headshots/{id}.png'
+            output_path = f'../data/nba/transient/headshots/{id}.png'
             r = requests.get(url, stream=True)
             if r.status_code == 200:
                 with open(output_path, 'wb') as f:
