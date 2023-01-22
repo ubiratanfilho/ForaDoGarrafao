@@ -36,7 +36,7 @@ class ShotCharts:
                 return ax
         
         def add_headshot(fig: plt.figure, id: int) -> plt.figure:
-                headshot_path = "../data/nba/transient/headshots/"+ str(id) +".png"
+                headshot_path = "../data/nba/raw/headshots/"+ str(id) +".png"
                 im = plt.imread(headshot_path)
                 ax = fig.add_axes([0.06, 0.01, 0.3, 0.3], anchor='SW')
                 ax.imshow(im)
@@ -102,8 +102,7 @@ class ShotCharts:
                         fontname='Franklin Gothic Medium')
                 plt.text(-250, 420, "Frequência e Aproveitamento", fontsize=12, color='white',
                         fontname='Franklin Gothic Book')
-                if len(season) > 1:
-                        season = f"{season[0][:4]}-{season[-1][-2:]}"
+                season = f"{season[0][:4]}-{season[-1][-2:]}"
                 plt.text(-250, -20, season, fontsize=8, color='white')
                 plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
                 
@@ -128,8 +127,7 @@ class ShotCharts:
                                 fontname='Franklin Gothic Medium')
                         plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
                                 fontname='Franklin Gothic Book')
-                        if len(season) > 1:
-                                season = f"{season[0][:4]}-{season[-1][-2:]}"
+                        season = f"{season[0][:4]}-{season[-1][-2:]}"
                         plt.text(-250, -20, season, fontsize=8, color='white')
                         plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
                 else:
@@ -142,8 +140,7 @@ class ShotCharts:
                         plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
                                 fontname='Franklin Gothic Book')
                         plt.text(-250, 385, "(sem área restrita)", fontsize=10, color='red')
-                        if len(season) > 1:
-                                season = f"{season[0][:4]}-{season[-1][-2:]}"
+                        season = f"{season[0][:4]}-{season[-1][-2:]}"
                         plt.text(-250, -20, season, fontsize=8, color='white')
                         plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
                         
@@ -161,7 +158,7 @@ class ShotCharts:
                 newax.imshow(im)
                 
                 # add headshot
-                #fig = ShotCharts.add_headshot(fig, df.PLAYER_ID.iloc[0])
+                fig = ShotCharts.add_headshot(fig, df.PLAYER_ID.iloc[0])
 
                 return fig
         
@@ -178,8 +175,7 @@ class ShotCharts:
                         fontname='Franklin Gothic Book')
                 plt.text(-175, 425, "Acertos", fontsize=12, color='green',
                         fontname='Franklin Gothic Book')
-                if len(season) > 1:
-                        season = f"{season[0][:4]}-{season[-1][-2:]}"
+                season = f"{season[0][:4]}-{season[-1][-2:]}"
                 plt.text(-250, -20, season, fontsize=8, color='white')
                 plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
 

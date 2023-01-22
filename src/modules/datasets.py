@@ -74,6 +74,7 @@ class NbaScraper:
             return [team for team in nba_teams 
                     if team['full_name'] == name][0]
     
+    @staticmethod
     def get_player_career(player_id: int) -> list:
         """ Get the career of a player from his id
         """
