@@ -1,13 +1,13 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
-from modules.datasets import Datasets
+import pandas as pd
 
 class ShotCharts:
         def __init__(self) -> None:
                 pass
         
-        def create_court(ax, color="white"):
+        def create_court(ax: mpl.axes, color="white") -> mpl.axes:
                 """ Create a basketball court in a matplotlib axes
                 """
                 # Short corner 3PT lines
@@ -35,15 +35,15 @@ class ShotCharts:
                 ax.set_ylim(0, 470)
                 return ax
         
-        def add_headshot(fig, id):
-                headshot_path = "../data/importado/headshots/"+ str(id) +".png"
+        def add_headshot(fig: plt.figure, id: int) -> plt.figure:
+                headshot_path = "../data/nba/raw/headshots/"+ str(id) +".png"
                 im = plt.imread(headshot_path)
                 ax = fig.add_axes([0.06, 0.01, 0.3, 0.3], anchor='SW')
                 ax.imshow(im)
                 ax.axis('off')
                 return fig
         
-        def frequency_chart(df, name, season=None, extent=(-250, 250, 422.5, -47.5),
+        def frequency_chart(df: pd.DataFrame, name: str, season=None, extent=(-250, 250, 422.5, -47.5),
                                 gridsize=25, cmap="inferno"):
                 """ Create a shot chart of a player's shot frequency and accuracy
                 """ 
@@ -102,8 +102,7 @@ class ShotCharts:
                         fontname='Franklin Gothic Medium')
                 plt.text(-250, 420, "Frequência e Aproveitamento", fontsize=12, color='white',
                         fontname='Franklin Gothic Book')
-                if len(season) > 1:
-                        season = f"{season[0][:4]}-{season[-1][-2:]}"
+                season = f"{season[0][:4]}-{season[-1][-2:]}"
                 plt.text(-250, -20, season, fontsize=8, color='white')
                 plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
                 
@@ -112,7 +111,7 @@ class ShotCharts:
 
                 return fig
         
-        def volume_chart(df, name, season=None, 
+        def volume_chart(df: pd.DataFrame, name: str, season=None, 
                         RA=True,
                         extent=(-250, 250, 422.5, -47.5),
                         gridsize=25, cmap="plasma"):
@@ -128,8 +127,7 @@ class ShotCharts:
                                 fontname='Franklin Gothic Medium')
                         plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
                                 fontname='Franklin Gothic Book')
-                        if len(season) > 1:
-                                season = f"{season[0][:4]}-{season[-1][-2:]}"
+                        season = f"{season[0][:4]}-{season[-1][-2:]}"
                         plt.text(-250, -20, season, fontsize=8, color='white')
                         plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
                 else:
@@ -142,8 +140,7 @@ class ShotCharts:
                         plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
                                 fontname='Franklin Gothic Book')
                         plt.text(-250, 385, "(sem área restrita)", fontsize=10, color='red')
-                        if len(season) > 1:
-                                season = f"{season[0][:4]}-{season[-1][-2:]}"
+                        season = f"{season[0][:4]}-{season[-1][-2:]}"
                         plt.text(-250, -20, season, fontsize=8, color='white')
                         plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
                         
@@ -165,7 +162,7 @@ class ShotCharts:
 
                 return fig
         
-        def makes_misses_chart(df, name, season=None):
+        def makes_misses_chart(df: pd.DataFrame, name: str, season=None):
                 # Create figure and axes
                 fig = plt.figure(figsize=(3.6, 3.6), facecolor='black', edgecolor='black', dpi=100)
                 ax = fig.add_axes([0, 0, 1, 1], facecolor='black')
@@ -178,8 +175,7 @@ class ShotCharts:
                         fontname='Franklin Gothic Book')
                 plt.text(-175, 425, "Acertos", fontsize=12, color='green',
                         fontname='Franklin Gothic Book')
-                if len(season) > 1:
-                        season = f"{season[0][:4]}-{season[-1][-2:]}"
+                season = f"{season[0][:4]}-{season[-1][-2:]}"
                 plt.text(-250, -20, season, fontsize=8, color='white')
                 plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
 
