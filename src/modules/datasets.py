@@ -31,6 +31,13 @@ class BReferenceScraper:
         ]
 
         df = pd.DataFrame(rows_data, columns=headers)
+        # remove empty rows
+        df.dropna(inplace=True)
+        # adding 0 before decimal numbers
+        df = df.applymap(lambda x: x.replace('.', '0.') 
+                         if x.startswith('.') else x)
+        # replace empty strings with 0
+        df = df.replace(r'^\s*$', 0, regex=True)
         if output_path != None:
             df.to_csv(output_path, index=False)
         return df

@@ -100,11 +100,11 @@ class ShotCharts:
                 # Add title
                 plt.text(-250, 450, f"{name}", fontsize=21, color='white',
                         fontname='Franklin Gothic Medium')
-                plt.text(-250, 420, "Frequência e Aproveitamento", fontsize=12, color='white',
+                plt.text(-250, 420, "Frequency & FG%", fontsize=12, color='white',
                         fontname='Franklin Gothic Book')
                 season = f"{season[0][:4]}-{season[-1][-2:]}"
                 plt.text(-250, -20, season, fontsize=8, color='white')
-                plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
+                plt.text(110, -20, '@hotshot_nba', fontsize=8, color='white')
                 
                 # add headshot
                 fig = ShotCharts.add_headshot(fig, df.PLAYER_ID.iloc[0])
@@ -125,11 +125,11 @@ class ShotCharts:
                         # Annotate player name and season
                         plt.text(-250, 440, f"{name}", fontsize=21, color='white',
                                 fontname='Franklin Gothic Medium')
-                        plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
+                        plt.text(-250, 410, "Shot Volume", fontsize=12, color='white',
                                 fontname='Franklin Gothic Book')
                         season = f"{season[0][:4]}-{season[-1][-2:]}"
                         plt.text(-250, -20, season, fontsize=8, color='white')
-                        plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
+                        plt.text(110, -20, '@hotshot_nba', fontsize=8, color='white')
                 else:
                         cond = ~((-45 < df.LOC_X) & (df.LOC_X < 45) & (-40 < df.LOC_Y) & (df.LOC_Y < 45))
                         x = df.LOC_X[cond]
@@ -137,12 +137,12 @@ class ShotCharts:
                         # Annotate player name and season
                         plt.text(-250, 440, f"{name}", fontsize=21, color='white',
                                 fontname='Franklin Gothic Medium')
-                        plt.text(-250, 410, "Volume de arremessos", fontsize=12, color='white',
+                        plt.text(-250, 410, "Shot Volume", fontsize=12, color='white',
                                 fontname='Franklin Gothic Book')
-                        plt.text(-250, 385, "(sem área restrita)", fontsize=10, color='red')
+                        plt.text(-250, 385, "(w/o restricted area)", fontsize=10, color='red')
                         season = f"{season[0][:4]}-{season[-1][-2:]}"
                         plt.text(-250, -20, season, fontsize=8, color='white')
-                        plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
+                        plt.text(110, -20, '@hotshot_nba', fontsize=8, color='white')
                         
                 hexbin = ax.hexbin(x, y, cmap=cmap,
                         bins="log", gridsize=25, mincnt=2, extent=(-250, 250, 422.5, -47.5))
@@ -151,7 +151,7 @@ class ShotCharts:
                 ax = ShotCharts.create_court(ax, 'white')
 
                 # add colorbar
-                im = plt.imread("../imagens/Colorbar Shotcharts.png")
+                im = plt.imread("../images/Colorbar Shotcharts.png")
                 newax = fig.add_axes([0.56, 0.6, 0.45, 0.4], anchor='NE', zorder=1)
                 newax.xaxis.set_visible(False)
                 newax.yaxis.set_visible(False)
@@ -169,15 +169,15 @@ class ShotCharts:
 
                 plt.text(-250, 450, f"{name}", fontsize=21, color='white',
                         fontname='Franklin Gothic Medium')
-                plt.text(-250, 425, "Erros", fontsize=12, color='red',
+                plt.text(-250, 425, "Misses", fontsize=12, color='red',
                         fontname='Franklin Gothic Book')
-                plt.text(-195, 425, "e", fontsize=12, color='white',
+                plt.text(-170, 425, "&", fontsize=12, color='white',
                         fontname='Franklin Gothic Book')
-                plt.text(-175, 425, "Acertos", fontsize=12, color='green',
+                plt.text(-150, 425, "Buckets", fontsize=12, color='green',
                         fontname='Franklin Gothic Book')
                 season = f"{season[0][:4]}-{season[-1][-2:]}"
                 plt.text(-250, -20, season, fontsize=8, color='white')
-                plt.text(110, -20, '@foradogarrafao', fontsize=8, color='white')
+                plt.text(110, -20, '@hotshot_nba', fontsize=8, color='white')
 
                 ax = ShotCharts.create_court(ax, 'white')
                 sc = ax.scatter(df.LOC_X, df.LOC_Y + 60, c=df.SHOT_MADE_FLAG, cmap='RdYlGn', s=12)
