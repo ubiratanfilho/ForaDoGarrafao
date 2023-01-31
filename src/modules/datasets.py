@@ -43,26 +43,38 @@ class BReferenceScraper:
         return df
     
     @staticmethod
-    def player_headshot(player_name: str, output_path=None):
+    def player_headshot(player_name: str, output_path=None) -> str:
         """Scraper for player headshot available in basketball-reference.com
 
         Args:
             player_name (string): name of the player to scrape
         """
         from PIL import Image
+        import time
+        time.sleep(5)
 
-        names = player_name.replace('-', ' ').lower().split(' ')
+        names = player_name.replace('-', ' ').replace("'", '').lower().split(' ')
         url = 'https://www.basketball-reference.com/players/' + names[1][0] + '/' + names[1][0:5] + names[0][0:2] + '01.html'
+        print()
+        print(player_name)
+        print(url)
         bs = BeautifulSoup(urlopen(url), 'lxml')
         
-        id_photo = 'Photo of ' + player_name
-        img_url = bs.find('img', {'alt': id_photo})['src']
-        img = Image.open(urlopen(img_url))
-        
-        if output_path != None:
-            img.save(output_path)
-        else:
-            img.save('../data/breference/transient/headshots/' + player_name.lower().replace(' ', '_') + '.jpg')
+        if "'" in player_name:
+            player_name = player_name.replace("'", '/').split('/')[0]
+        try:
+            id_photo = 'Photo of ' + player_name
+            img_url = bs.find('img', {'alt': id_photo})['src']
+            img = Image.open(urlopen(img_url))
+            
+            if output_path != None:
+                img.save(output_path)
+            else:
+                img.save('../data/breference/raw/headshots/' + player_name.lower().replace(' ', '_') + '.jpg')
+            return img_url
+        except TypeError:
+            print('No headshot found')
+            return None
     
 class NbaScraper:
     """ Class to scrape data from the NBA official website.
